@@ -1,4 +1,4 @@
-```markdown
+
 # Recod.ai - Scientific Image Forgery Detection
 
 **Rank 11 Solution for the Recod.ai/LUC Kaggle Competition**
@@ -18,7 +18,7 @@ This project utilizes a semantic segmentation approach to identify pixel-level a
 
 ## Project Structure
 
-```text
+
 .
 ├── config.py                 # Configuration file for paths, hyperparameters, and model settings
 ├── Cor.py                    # Core utilities and correction modules
@@ -32,7 +32,7 @@ This project utilizes a semantic segmentation approach to identify pixel-level a
 ├── train.py                  # Training loop script
 ├── requirements.txt          # Python dependencies
 └── README.md                 # Project documentation
-```
+
 
 ## Getting Started
 
