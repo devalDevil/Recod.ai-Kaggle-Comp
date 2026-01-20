@@ -19,7 +19,7 @@ This project utilizes a semantic segmentation approach to identify pixel-level a
 ## Project Structure
 
 
-.
+```markdown
 ├── config.py                 # Configuration file for paths, hyperparameters, and model settings
 ├── Cor.py                    # Core utilities and correction modules
 ├── create_dataset_csv.py     # Script to generate CSV manifests from raw image directories
@@ -32,7 +32,7 @@ This project utilizes a semantic segmentation approach to identify pixel-level a
 ├── train.py                  # Training loop script
 ├── requirements.txt          # Python dependencies
 └── README.md                 # Project documentation
-
+```
 
 ## Getting Started
 
