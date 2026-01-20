@@ -1,93 +1,109 @@
-Recod.ai - Scientific Image Forgery Detection
+```markdown
+# Recod.ai - Scientific Image Forgery Detection
 
-📌 Overview
+**Rank 11 Solution for the Recod.ai/LUC Kaggle Competition**
 
-This repository contains the solution and codebase for the Recod.ai/LUC - Scientific Image Forgery Detection Kaggle competition.
+This repository contains the source code and solution methodology for the **Scientific Image Forgery Detection** competition. The objective was to develop computer vision models capable of detecting and segmenting forged regions (copy-move, splicing, etc.) within scientific biomedical images.
 
-The goal of this project is to build computer vision models capable of detecting and segmenting copy-move forgeries in scientific biomedical images.
+## Repository Overview
 
-📂 Project Structure
+This project utilizes a semantic segmentation approach to identify pixel-level anomalies in scientific imagery. The codebase is structured as a flat directory for ease of access to training and inference scripts.
 
+### Key Features
+
+* **Custom Dataset Loading**: tailored for competition data formats.
+* **Segmentation Models**: Implementation of U-Net/SegFormer based architectures (`model.py`, `model1.py`).
+* **Custom Loss Functions**: Specialized losses (`losses.py`) to handle class imbalance between forged and authentic pixels.
+* **Metric Tracking**: Custom evaluation metrics (`metrics.py`).
+
+## Project Structure
+
+```text
 .
-├── data/
-│   ├── raw/                    # Original competition data (not tracked in git)
-│   └── processed/              # Preprocessed tiles/masks
-├── notebooks/                  # Jupyter notebooks for EDA and prototyping
-├── src/                        # Source code
-│   ├── models/                 # Model architectures (e.g., U-Net, SegFormer)
-│   ├── data/                   # Data loaders and augmentation pipelines
-│   └── utils/                  # Helper functions and metrics
-├── submissions/                # Generated CSVs for Kaggle submission
-├── requirements.txt            # Python dependencies
-└── README.md                   # Project documentation
+├── config.py                 # Configuration file for paths, hyperparameters, and model settings
+├── Cor.py                    # Core utilities and correction modules
+├── create_dataset_csv.py     # Script to generate CSV manifests from raw image directories
+├── dataset.py                # PyTorch Dataset class and augmentation pipelines
+├── losses.py                 # Custom loss functions (e.g., Dice Loss, BCE, Focal Loss)
+├── main.py                   # Main entry point for inference or pipeline execution
+├── metrics.py                # Evaluation metrics (IoU, Dice Score, Pixel Accuracy)
+├── model.py                  # Primary model architecture definition
+├── model1.py                 # Secondary/Experiment model architecture
+├── train.py                  # Training loop script
+├── requirements.txt          # Python dependencies
+└── README.md                 # Project documentation
+```
 
+## Getting Started
 
-🚀 Getting Started
+### Prerequisites
 
-Prerequisites
+* Python 3.10+
+* CUDA-compatible GPU
 
-Python 3.10+
-
-CUDA-enabled GPU (recommended)
-
-Installation
+### Installation
 
 Clone the repository:
 
-git clone [https://github.com/devalDevil/Recod.ai-Kaggle-Comp.git](https://github.com/devalDevil/Recod.ai-Kaggle-Comp.git)
+```bash
+git clone https://github.com/devalDevil/Recod.ai-Kaggle-Comp.git
 cd Recod.ai-Kaggle-Comp
+```
 
+Install Dependencies:
 
-Install dependencies:
-
+```bash
 pip install -r requirements.txt
+```
 
+## Usage Pipeline
 
-🛠️ Usage
+### 1. Data Preparation
 
-1. Data Setup
+Before training, generate the dataset CSV files that map images to their corresponding ground truth masks.
 
-Download the competition data from Kaggle and place it in the data/raw/ directory.
+```bash
+python create_dataset_csv.py
+```
 
-2. Training
+### 2. Configuration
 
-Run the training script to fine-tune the model:
+Open `config.py` and ensure the following paths are set correctly for your environment:
 
-# Example command
-python src/train.py --config configs/default.yaml
+* `DATA_ROOT`: Path to the raw competition data.
+* `TRAIN_CSV`: Path to the generated training CSV.
+* `VALID_CSV`: Path to the generated validation CSV.
+* Hyperparameters: `BATCH_SIZE`, `LR` (Learning Rate), `EPOCHS`.
 
+### 3. Training
 
-3. Inference
+Run the training script to fine-tune the model. Checkpoints will be saved based on the settings in `config.py`.
 
-Generate predictions on the test set:
+```bash
+python train.py
+```
 
-python src/inference.py --model_path checkpoints/best_model.pth
+### 4. Inference / Main Execution
 
+To run the full pipeline or generate submissions on test data:
 
-📊 Methodology
+```bash
+python main.py
+```
 
-(Update this section with your specific approach)
+## Methodology
 
-Preprocessing: Image resizing/tiling and normalization.
+The solution treats forgery detection as a binary segmentation problem.
 
-Augmentation: Geometric transformations (flip, rotate) and forgery-specific artifacts.
+* **Input**: Scientific images (often containing cloned regions).
+* **Output**: Binary mask indicating forged pixels.
+* **Strategy**: The model is trained to minimize a combination loss (defined in `losses.py`) that optimizes for both pixel accuracy and intersection-over-union, crucial for detecting small forged artifacts.
 
-Model: Semantic segmentation architecture (e.g., U-Net, DeepLabV3+).
-
-Loss: Combo Loss (Dice + BCE).
-
-🤝 Contributing
-
-Fork the Project
-
-Create your Feature Branch (git checkout -b feature/AmazingFeature)
-
-Commit your Changes (git commit -m 'Add some AmazingFeature')
-
-Push to the Branch (git push origin feature/AmazingFeature)
-
-Open a Pull Request
-
-📜 License
+## License
 
 Distributed under the MIT License. See LICENSE for more information.
+
+## Credits
+
+Developed by devalDevil as part of the Recod.ai Kaggle Competition.
+```
